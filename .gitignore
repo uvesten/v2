@@ -4,6 +4,7 @@
 *.so
 *.swo
 .idea
+app/json-server/db.json
 
 # Folders
 _obj

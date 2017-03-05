@@ -115,7 +115,12 @@ export function getRoute(routeName, params = {}) {
 }
 
 export function routeToMicroservice(service, path = '', urlParams = {}) {
-  const devRoute = `${HTTP_PREFIX}${service}${DEVELOPMENT_APEX}${path}`;
+  // TODO restore after i18n is done.
+  // const devRoute = `${HTTP_PREFIX}${service}${DEVELOPMENT_APEX}${path}`;
+  let devRoute = `http://localhost:3000/${service}${path}`;
+  if (service !== 'whoami') {
+    devRoute = `http://localhost:3000${path}`;
+  }
   let fullPath = '';
 
   switch (detectEnvironment()) {
