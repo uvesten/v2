@@ -32,12 +32,12 @@ export default function (state = initialState, action) {
     case actionTypes.CREATING_TEAM_JOB:
       return _.extend({}, state, {
         jobFieldsSaving: state.jobFieldsSaving
-                                .concat(constants.NEW_JOB_UUID),
+          .concat(constants.NEW_JOB_UUID),
       });
 
     case actionTypes.CREATED_TEAM_JOB:
       jobSavingIdx = state.jobFieldsSaving
-                                  .indexOf(constants.NEW_JOB_UUID);
+        .indexOf(constants.NEW_JOB_UUID);
 
       return _.extend({}, state, {
         jobFieldsSaving: [
@@ -45,7 +45,7 @@ export default function (state = initialState, action) {
           ...state.jobFieldsSaving.slice(jobSavingIdx + 1),
         ],
         jobFieldsShowSuccess: state.jobFieldsShowSuccess
-                                    .concat(action.data.uuid),
+          .concat(action.data.uuid),
         newJob: constants.DEFAULT_NEW_JOB,
       });
 

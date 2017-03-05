@@ -70,8 +70,8 @@ class TableRow extends React.Component {
 
   extractPropData(propDataFields) {
     /*
-      returns an object containing the needed props mapped by componentProps
-    */
+     returns an object containing the needed props mapped by componentProps
+     */
 
     const { rowData } = this.props;
     const response = {};
