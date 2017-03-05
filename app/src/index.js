@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import { Router, Route, IndexRoute, hashHistory, IndexRedirect }
   from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
+import { I18nextProvider } from 'react-i18next';
 import Raven from 'raven-js';
 import configureStore from 'stores/configureStore';
 import Launcher from 'components/Launcher';
@@ -22,6 +23,7 @@ import {
   SENTRY_STAGING_KEY,
   SENTRY_PRODUCTION_KEY,
 } from './constants/config';
+import i18n from './i18n';
 
 require('../../third_party/node/material_design_lite/main');
 require('./main.scss');
@@ -41,49 +43,51 @@ const history = syncHistoryWithStore(hashHistory, store);
 
 ReactDOM.render(
   <Provider store={store}>
-    <Router history={history}>
-      <Route path={paths.getRoute(paths.ROOT_PATH)}>
+    <I18nextProvider i18n={i18n}>
+      <Router history={history}>
+        <Route path={paths.getRoute(paths.ROOT_PATH)}>
 
-        {/* Company Launcher  */}
-        <IndexRoute component={Launcher} />
+          {/* Company Launcher  */}
+          <IndexRoute component={Launcher} />
 
-        {/* Base page for a specific company */}
-        <Route path={paths.getRoute(paths.COMPANY_BASE)} component={App}>
-          <IndexRedirect to={paths.getRoute(paths.COMPANY_EMPLOYEES)} />
-          <Route
-            path={paths.getRoute(paths.COMPANY_EMPLOYEES)}
-            component={Employees}
-          >
-            <IndexRoute component={InfoSidePanel} />
+          {/* Base page for a specific company */}
+          <Route path={paths.getRoute(paths.COMPANY_BASE)} component={App}>
+            <IndexRedirect to={paths.getRoute(paths.COMPANY_EMPLOYEES)} />
             <Route
-              path={paths.getRoute(paths.COMPANY_EMPLOYEE)}
-              component={EmployeeSidePanel}
+              path={paths.getRoute(paths.COMPANY_EMPLOYEES)}
+              component={Employees}
+            >
+              <IndexRoute component={InfoSidePanel} />
+              <Route
+                path={paths.getRoute(paths.COMPANY_EMPLOYEE)}
+                component={EmployeeSidePanel}
+              />
+            </Route>
+            <Route
+              path={paths.getRoute(paths.COMPANY_HISTORY)}
+              component={Title}
             />
-          </Route>
-          <Route
-            path={paths.getRoute(paths.COMPANY_HISTORY)}
-            component={Title}
-          />
 
-          {/* Base page for a team within a company  */}
-          <Route path={paths.getRoute(paths.TEAM_BASE)}>
-            <IndexRedirect to={paths.getRoute(paths.TEAM_SCHEDULING)} />
-            <Route
-              path={paths.getRoute(paths.TEAM_SCHEDULING)}
-              component={Scheduling}
-            />
-            <Route
-              path={paths.getRoute(paths.TEAM_SETTINGS)}
-              component={Settings}
-            />
-            <Route
-              path={paths.getRoute(paths.TEAM_SHIFT_BOARD)}
-              component={OtherTitle}
-            />
+            {/* Base page for a team within a company  */}
+            <Route path={paths.getRoute(paths.TEAM_BASE)}>
+              <IndexRedirect to={paths.getRoute(paths.TEAM_SCHEDULING)} />
+              <Route
+                path={paths.getRoute(paths.TEAM_SCHEDULING)}
+                component={Scheduling}
+              />
+              <Route
+                path={paths.getRoute(paths.TEAM_SETTINGS)}
+                component={Settings}
+              />
+              <Route
+                path={paths.getRoute(paths.TEAM_SHIFT_BOARD)}
+                component={OtherTitle}
+              />
+            </Route>
           </Route>
         </Route>
-      </Route>
-    </Router>
+      </Router>
+    </I18nextProvider>
   </Provider>,
   document.getElementById('app')
 );

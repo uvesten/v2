@@ -1,2 +1,3 @@
 ../third_party/node/*
 **/Intercom/*
+src/i18n.js
