@@ -2,6 +2,7 @@ import _ from 'lodash';
 import moment from 'moment';
 import React, { PropTypes } from 'react';
 import { ScaleModal } from 'boron';
+import { translate } from 'react-i18next';
 import TimeSelector from 'components/TimeSelector';
 import ShiftModalDaySelector from 'components/Scheduling/ShiftModalDaySelector';
 import { ModalLayoutRightSideColumn } from 'components/ModalLayout';
@@ -65,7 +66,7 @@ class CreateShiftModal extends React.Component {
   render() {
     const { timezone, tableSize, startDate, containerComponent, employees,
       updateSchedulingModalFormData, containerProps, selectedDate, selectedRow,
-      viewBy, modalFormData, sectionUuid } = this.props;
+      viewBy, modalFormData, sectionUuid, t } = this.props;
     let selectedUuid = (viewBy === 'employee') ? selectedRow : '';
     let launchContainer = null;
     const employeesArray = _.values(employees);
@@ -93,7 +94,7 @@ class CreateShiftModal extends React.Component {
 
     employeesArray.unshift({
       user_uuid: '',
-      name: 'Unassigned',
+      name: t('unassigned'),
     });
 
     if (selectedUuid === UNASSIGNED_SHIFTS) {
@@ -117,7 +118,7 @@ class CreateShiftModal extends React.Component {
             {...containerProps}
             onClick={this.openModal}
           >
-            Create Shift
+            {t('createShift')}
           </StaffjoyButton>
         );
         break;
@@ -157,8 +158,8 @@ class CreateShiftModal extends React.Component {
           onHide={this.onModalClose}
         >
           <ModalLayoutRightSideColumn
-            title="Create New Shift"
-            panelTitle="Select Employee(s)"
+            title={t('createNewShift')}
+            panelTitle={t('selectEmployees')}
             panelContent={selectableList}
             buttons={[
               <StaffjoyButton
@@ -167,7 +168,7 @@ class CreateShiftModal extends React.Component {
                 key="cancel-button"
                 onClick={this.closeModal}
               >
-                Cancel
+                {t('cancel')}
               </StaffjoyButton>,
               <StaffjoyButton
                 buttonType="primary"
@@ -176,7 +177,7 @@ class CreateShiftModal extends React.Component {
                 onClick={this.saveButton}
                 disabled={disabledSave}
               >
-                Save
+                {t('save')}
               </StaffjoyButton>,
             ]}
           >
@@ -214,6 +215,7 @@ CreateShiftModal.propTypes = {
   updateSchedulingModalFormData: PropTypes.func.isRequired,
   clearSchedulingModalFormData: PropTypes.func.isRequired,
   sectionUuid: PropTypes.string,
+  t: PropTypes.func.isRequired,
 };
 
-export default CreateShiftModal;
+export default translate('common')(CreateShiftModal);

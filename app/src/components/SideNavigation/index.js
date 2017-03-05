@@ -3,6 +3,7 @@ import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { Drawer, Navigation } from 'react-mdl';
+import { translate } from 'react-i18next';
 import { companyNavLinks } from 'constants/sideNavigation';
 import * as paths from 'constants/paths';
 import NavigationLogo from './Logo';
@@ -19,6 +20,7 @@ function NavigationSide({
   teams,
   userName,
   userPhotoUrl,
+  t,
 }) {
   return (
     <Drawer>
@@ -37,7 +39,7 @@ function NavigationSide({
                 className={className}
                 to={route}
               >
-                {link.displayName}
+                { t(link.translate) }
               </Link>
             );
           })
@@ -97,6 +99,7 @@ NavigationSide.propTypes = {
   userPhotoUrl: PropTypes.string.isRequired,
   companyPermissions: PropTypes.array.isRequired,
   teams: PropTypes.array.isRequired,
+  t: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps)(NavigationSide);
+export default connect(mapStateToProps)(translate('common')(NavigationSide));

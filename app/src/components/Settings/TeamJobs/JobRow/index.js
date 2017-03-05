@@ -1,12 +1,13 @@
 import React, { PropTypes } from 'react';
 import { TwitterPicker } from 'react-color';
 import { Spinner } from 'react-mdl';
+import { translate } from 'react-i18next';
 import DeleteIcon from 'components/SVGs/DeleteIcon';
 import * as constants from 'constants/constants';
 
 require('./job-row.scss');
 
-export default class JobRow extends React.Component {
+class JobRow extends React.Component {
 
   componentDidMount() {
     if (this.props.isNewJob) {
@@ -26,6 +27,7 @@ export default class JobRow extends React.Component {
       handleShowModalClick,
       jobFieldsSaving,
       jobFieldsShowSuccess,
+      t,
     } = this.props;
 
     return (
@@ -56,7 +58,7 @@ export default class JobRow extends React.Component {
             &&
             <div className="job-form-field-success">
               <i className="material-icons">check_circle</i>
-              <span>Saved!</span>
+              <span>{ t('common.jobSaved') }</span>
             </div>
           }
         </td>
@@ -115,6 +117,7 @@ JobRow.propTypes = {
   handleShowModalClick: PropTypes.func.isRequired,
   jobFieldsSaving: PropTypes.array.isRequired,
   jobFieldsShowSuccess: PropTypes.array.isRequired,
+  t: PropTypes.func.isRequired,
 };
 
 JobRow.defaultProps = {
@@ -123,3 +126,5 @@ JobRow.defaultProps = {
   handleJobColorClick: () => {},
   handleColorPickerChange: () => {},
 };
+
+export default translate('common')(JobRow);

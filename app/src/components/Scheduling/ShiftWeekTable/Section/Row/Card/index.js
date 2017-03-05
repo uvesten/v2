@@ -3,6 +3,7 @@ import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import { DragSource as dragSource, DropTarget as dropTarget } from 'react-dnd';
 import { ScaleModal } from 'boron';
+import { translate } from 'react-i18next';
 import moment from 'moment';
 import 'moment-timezone';
 import classNames from 'classnames';
@@ -155,16 +156,24 @@ class ShiftWeekTableCard extends React.Component {
     const { employees, jobs, shiftStart, shiftStop, timezone, published,
       viewBy, jobUuid, userUuid, connectDragSource, connectDropTarget,
       isDragging, columnId, updateSchedulingModalFormData, modalFormData,
-      isOver } = this.props;
+      isOver, t } = this.props;
     const { zAxisOpened } = this.state;
     const startMoment = moment.utc(shiftStart).tz(timezone);
     const startDisplay = startMoment.format(MOMENT_SHIFT_CARD_TIMES);
     const stopMoment = moment.utc(shiftStop).tz(timezone);
     const stopDisplay = stopMoment.format(MOMENT_SHIFT_CARD_TIMES);
-    const formattedDuration = formattedDifferenceFromMoment(
-                                startMoment,
-                                stopMoment
-                              );
+    const { hr, m } = formattedDifferenceFromMoment(startMoment, stopMoment);
+    const format = [];
+
+    if (hr > 0) {
+      format.push(`${hr} ${t('hours')}`);
+    }
+
+    if (m > 0) {
+      format.push(`${m} ${t('minutes')}`);
+    }
+    const hasTime = format.length > 0;
+    const formattedDuration = hasTime ? format.join(' ') : t('noTimeAssigned');
 
     // determine whether the save button on the modal should be enabled
     const modalStartMoment = moment(
@@ -207,7 +216,7 @@ class ShiftWeekTableCard extends React.Component {
             className="job-label job-label-none"
             title="No job assigned to this shift."
           >
-            <span>- -</span>
+            <span>{t('stillUnassigned')}</span>
           </div>);
       }
     } else if (viewBy === 'job') {
@@ -252,7 +261,7 @@ class ShiftWeekTableCard extends React.Component {
                 size="small"
                 onClick={this.deleteShiftButton}
               >
-                Delete
+                {t('delete')}
               </StaffjoyButton>,
               <StaffjoyButton
                 buttonType="primary"
@@ -261,7 +270,7 @@ class ShiftWeekTableCard extends React.Component {
                 onClick={this.saveChangesButton}
                 disabled={disabledSave}
               >
-                Save
+                {t('save')}
               </StaffjoyButton>,
             ]}
           >
@@ -277,11 +286,11 @@ class ShiftWeekTableCard extends React.Component {
         <div className="shift-details" onClick={this.showEditShiftModal}>
           <span className="duration">{formattedDuration}</span>
           <div>
-            <div className="card-label">Start:</div>
+            <div className="card-label">{t('start')}</div>
             <div className="card-time">{startDisplay}</div>
           </div>
           <div>
-            <div className="card-label">End:</div>
+            <div className="card-label">{t('end')}</div>
             <div className="card-time">{stopDisplay}</div>
           </div>
         </div>
@@ -364,6 +373,7 @@ ShiftWeekTableCard.propTypes = {
   onZAxisChange: PropTypes.func.isRequired,
   companyUuid: PropTypes.string,
   teamUuid: PropTypes.string,
+  t: PropTypes.func.isRequired,
 };
 
 /*
@@ -417,4 +427,4 @@ function collectDrop(connect, monitor) {
 export default _.flow(
   dragSource('card', cardDragSpec, collectDrag),
   dropTarget('card', cardDropSpec, collectDrop)
-)(ShiftWeekTableCard);
+)(translate('common')(ShiftWeekTableCard));

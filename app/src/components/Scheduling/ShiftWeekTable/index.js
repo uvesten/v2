@@ -1,8 +1,9 @@
 import _ from 'lodash';
 import moment from 'moment';
 import React, { PropTypes } from 'react';
+import { translate } from 'react-i18next';
 import {
-  MOMENT_DAY_DATE_DISPLAY,
+  MOMENT_DATE_DISPLAY,
   MOMENT_ISO_DATE,
 } from 'constants/config';
 import {
@@ -83,14 +84,16 @@ class ShiftWeekTable extends React.Component {
   }
 
   buildColumns() {
-    const { startDate, tableSize } = this.props;
+    const { startDate, tableSize, t } = this.props;
     const startMoment = moment(startDate);
 
     return _.map(_.range(tableSize), (i) => {
       const calDate = startMoment.clone().add(i, 'days');
+      const day = calDate.format('ddd');
+      const dateLabel = t(`dayShortNameMap.${day.toLowerCase()}`);
       return {
         columnId: calDate.format(MOMENT_ISO_DATE),
-        columnHeader: calDate.format(MOMENT_DAY_DATE_DISPLAY),
+        columnHeader: `${dateLabel} ${calDate.format(MOMENT_DATE_DISPLAY)}`,
       };
     });
   }
@@ -100,7 +103,7 @@ class ShiftWeekTable extends React.Component {
       droppedSchedulingCard, toggleSchedulingModal, editTeamShift,
       deleteTeamShift, startDate, updateSchedulingModalFormData,
       clearSchedulingModalFormData, createTeamShift, modalFormData,
-      isSaving, shifts, companyUuid, teamUuid } = this.props;
+      isSaving, shifts, companyUuid, teamUuid, t } = this.props;
 
     const columns = this.buildColumns();
     let unassignedSection = null;
@@ -113,7 +116,7 @@ class ShiftWeekTable extends React.Component {
           columns={columns}
           tableSize={tableSize}
           shifts={shifts.filter(shift => shift.user_uuid === '')}
-          name="Unassigned Shifts"
+          name={t('unassignedShifts')}
           sectionType={viewBy}
           sectionUuid={UNASSIGNED_SHIFTS}
           timezone={timezone}
@@ -143,7 +146,7 @@ class ShiftWeekTable extends React.Component {
           columns={columns}
           tableSize={tableSize}
           shifts={shifts.filter(shift => shift.job_uuid === '')}
-          name="No Job"
+          name={t('noJobs')}
           sectionType={viewBy}
           sectionUuid={UNASSIGNED_SHIFTS}
           timezone={timezone}
@@ -253,6 +256,7 @@ ShiftWeekTable.propTypes = {
   isSaving: PropTypes.bool.isRequired,
   companyUuid: PropTypes.string.isRequired,
   teamUuid: PropTypes.string.isRequired,
+  t: PropTypes.func.isRequired,
 };
 
-export default ShiftWeekTable;
+export default translate('common')(ShiftWeekTable);

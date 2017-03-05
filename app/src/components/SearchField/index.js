@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Textfield } from 'react-mdl';
 import classNames from 'classnames';
+import { translate } from 'react-i18next';
 
 require('./search-field.scss');
 
@@ -9,6 +10,7 @@ function SearchField({
   onChange = {},
   darkBackground,
   disabled = false,
+  t,
 }) {
   const classes = classNames({
     'search-container': true,
@@ -20,7 +22,7 @@ function SearchField({
       <i className="material-icons">search</i>
       <Textfield
         onChange={onChange}
-        label="Search"
+        label={t('search')}
         style={{ width: width - 45 }}
         disabled={disabled}
       />
@@ -33,6 +35,7 @@ SearchField.propTypes = {
   onChange: PropTypes.func,
   darkBackground: PropTypes.bool,
   disabled: PropTypes.bool,
+  t: PropTypes.func.isRequired,
 };
 
-export default SearchField;
+export default translate('common')(SearchField);

@@ -2,6 +2,7 @@ import _ from 'lodash';
 import moment from 'moment';
 import $ from 'npm-zepto';
 import React, { PropTypes } from 'react';
+import { translate } from 'react-i18next';
 import StaffjoyButton from 'components/StaffjoyButton';
 import StaffjoyTextField from 'components/StaffjoyTextField';
 import {
@@ -166,6 +167,7 @@ class TimeSelector extends React.Component {
     const { activeField, startFieldText, stopFieldText, startMeridiem,
       stopMeridiem, startHour, stopHour, startMinute,
       stopMinute } = this.state;
+    const { t } = this.props;
     const startFocused = activeField === 'start';
     const stopFocused = !startFocused;
     const meridiem = (startFocused) ? startMeridiem : stopMeridiem;
@@ -176,7 +178,7 @@ class TimeSelector extends React.Component {
       <div className="time-selector">
         <div className="input-fields">
           <StaffjoyTextField
-            label="Shift Start"
+            label={t('shiftStart')}
             data-field-name="start"
             onChange={this.textFieldOnChange}
             onFocus={this.textFieldOnFocus}
@@ -186,7 +188,7 @@ class TimeSelector extends React.Component {
             isFocused={startFocused}
           />
           <StaffjoyTextField
-            label="Shift End"
+            label={t('shiftEnd')}
             data-field-name="stop"
             onChange={this.textFieldOnChange}
             onFocus={this.textFieldOnFocus}
@@ -290,6 +292,7 @@ TimeSelector.propTypes = {
   timezone: PropTypes.string,
   date: PropTypes.string,
   formCallback: PropTypes.func.isRequired,
+  t: PropTypes.func.isRequired,
 };
 
-export default TimeSelector;
+export default translate('common')(TimeSelector);

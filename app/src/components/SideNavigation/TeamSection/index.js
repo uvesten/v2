@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
+import { translate } from 'react-i18next';
 import { teamNavLinks } from 'constants/sideNavigation';
 import * as paths from 'constants/paths';
 import { NO_TRANSPARENCY } from 'constants/config';
@@ -14,6 +15,7 @@ function SideNavigationTeamSection({
   name,
   color,
   currentPath,
+  t,
 }) {
   const titleStyle = {
     color: hexToRGBAString(color, NO_TRANSPARENCY),
@@ -40,7 +42,7 @@ function SideNavigationTeamSection({
               to={route}
               className={className}
             >
-              {link.displayName}
+              { t(link.translate) }
             </Link>
           );
         })
@@ -55,6 +57,7 @@ SideNavigationTeamSection.propTypes = {
   name: PropTypes.string.isRequired,
   color: PropTypes.string.isRequired,
   currentPath: PropTypes.string.isRequired,
+  t: PropTypes.func.isRequired,
 };
 
-export default SideNavigationTeamSection;
+export default translate('common')(SideNavigationTeamSection);

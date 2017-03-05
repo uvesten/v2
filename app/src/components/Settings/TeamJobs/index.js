@@ -1,12 +1,13 @@
 import _ from 'lodash';
 import React, { PropTypes } from 'react';
+import { translate } from 'react-i18next';
 import PlusIcon from 'components/SVGs/PlusIcon';
 import TableHeader from './TableHeader';
 import JobRow from './JobRow';
 
 require('./team-jobs.scss');
 
-export default class TeamJobs extends React.Component {
+class TeamJobs extends React.Component {
 
   getQueriedJobs() {
     const {
@@ -48,6 +49,7 @@ export default class TeamJobs extends React.Component {
       jobFieldsSaving,
       jobFieldsShowSuccess,
       newJob,
+      t,
     } = this.props;
 
     return (
@@ -106,7 +108,7 @@ export default class TeamJobs extends React.Component {
                 width="26px"
                 height="26px"
               />
-              Add New Job
+              { t('addNewJobs') }
             </td>
           </tr>
         </tbody>
@@ -133,4 +135,7 @@ TeamJobs.propTypes = {
   filters: PropTypes.object.isRequired,
   jobFieldsSaving: PropTypes.array.isRequired,
   jobFieldsShowSuccess: PropTypes.array.isRequired,
+  t: PropTypes.func.isRequired,
 };
+
+export default translate('common')(TeamJobs);

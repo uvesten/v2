@@ -2,7 +2,7 @@ import * as paths from './paths';
 
 export const companyNavLinks = [
   {
-    displayName: 'Employees',
+    translate: 'navLinks.employees',
     pathName: paths.COMPANY_EMPLOYEES,
   },
   /*{
@@ -14,11 +14,11 @@ export const companyNavLinks = [
 // these links will be available for each team that exists
 export const teamNavLinks = [
   {
-    displayName: 'Scheduler',
+    translate: 'navLinks.scheduler',
     pathName: paths.TEAM_SCHEDULING,
   },
   {
-    displayName: 'Settings',
+    translate: 'navLinks.settings',
     pathName: paths.TEAM_SETTINGS,
   },
   /*{

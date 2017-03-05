@@ -2,11 +2,11 @@ import _ from 'lodash';
 import $ from 'npm-zepto';
 import moment from 'moment';
 import React, { PropTypes } from 'react';
+import { translate } from 'react-i18next';
 import {
   MOMENT_DATE_DISPLAY,
   MOMENT_ISO_DATE,
 } from 'constants/config';
-import { getLetterFromDayName } from 'utility';
 import ShiftModalDayCell from './DayCell';
 
 require('./shift-modal-day-selector.scss');
@@ -16,12 +16,12 @@ class ShiftModalDaySelector extends React.Component {
   constructor(props) {
     super(props);
 
-    const { tableSize, startDate } = this.props;
+    const { tableSize, startDate, t } = this.props;
     const startMoment = moment(startDate);
     const cells = _.map(_.range(tableSize), (i) => {
       const calDate = startMoment.clone().add(i, 'days');
       return {
-        dayLetter: getLetterFromDayName(calDate.format('dddd')),
+        dayLetter: t(`dayLetterMap.${calDate.format('dddd').toLowerCase()}`),
         displayDate: calDate.format(MOMENT_DATE_DISPLAY),
         cellId: calDate.format(MOMENT_ISO_DATE),
       };
@@ -88,6 +88,7 @@ ShiftModalDaySelector.propTypes = {
   startDate: PropTypes.string.isRequired,
   selectedDate: PropTypes.string,
   formCallback: PropTypes.func.isRequired,
+  t: PropTypes.func.isRequired,
 };
 
-export default ShiftModalDaySelector;
+export default translate('common')(ShiftModalDaySelector);

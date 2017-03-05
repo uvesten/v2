@@ -1,11 +1,12 @@
 import _ from 'lodash';
 import React, { PropTypes } from 'react';
+import { translate } from 'react-i18next';
 import StaffjoyButton from 'components/StaffjoyButton';
 import { SCHEDULING_VIEW_BY_OPTIONS } from 'constants/config';
 
 require('./scheduling-view-by-controller.scss');
 
-function SchedulingViewByController({ viewBy, onClick, disabled = false }) {
+function SchedulingViewByController({ viewBy, onClick, disabled = false, t }) {
   return (
     <div className="scheduling-view-by-controller">
       {
@@ -20,7 +21,7 @@ function SchedulingViewByController({ viewBy, onClick, disabled = false }) {
               active={viewBy === buttonView.id}
               disabled={disabled}
             >
-              {buttonView.name}
+              {t(`viewBy${buttonView.name}`)}
             </StaffjoyButton>
           );
         })
@@ -33,6 +34,7 @@ SchedulingViewByController.propTypes = {
   viewBy: PropTypes.string.isRequired,
   onClick: PropTypes.func,
   disabled: PropTypes.bool,
+  t: PropTypes.func.isRequired,
 };
 
-export default SchedulingViewByController;
+export default translate('common')(SchedulingViewByController);
