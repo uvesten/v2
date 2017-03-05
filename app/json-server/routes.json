@@ -1,0 +1,13 @@
+{
+  "/whoami": "/whoami",
+  "/whoami/intercom": "/intercom",
+  "/v1/accounts/:accountId": "/account",
+  "/v1/companies/:companyId": "/company",
+  "/v1/companies/:companyId/directory": "/company_directory",
+  "/v1/companies/:companyId/associations": "/company_associations",
+  "/v1/companies/:companyId/teams": "/company_teams",
+  "/v1/companies/:companyId/team/:id": "/company_team",
+  "/v1/companies/:companyId/teams/:teamId/workers": "/company_team_workers",
+  "/v1/companies/:companyId/teams/:teamId/jobs": "/company_team_jobs",
+  "/v1/companies/:companyId/teams/:teamId/shifts": "/company_team_shifts"
+}
