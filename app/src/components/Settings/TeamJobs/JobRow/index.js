@@ -58,7 +58,7 @@ class JobRow extends React.Component {
             &&
             <div className="job-form-field-success">
               <i className="material-icons">check_circle</i>
-              <span>{ t('common.jobSaved') }</span>
+              <span>{ t('jobSaved') }</span>
             </div>
           }
         </td>
