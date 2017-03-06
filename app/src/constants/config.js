@@ -50,12 +50,12 @@ export const API_TIME_FORMAT = 'YYYY-MM-DDTHH:mm:ss';
 
 export const SCHEDULING_VIEW_BY_OPTIONS = [
   {
-    id: 'employee',
-    name: 'Employee',
-  },
-  {
     id: 'job',
     name: 'Job',
+  },
+  {
+    id: 'employee',
+    name: 'Employee',
   },
 ];
 

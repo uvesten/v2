@@ -231,7 +231,6 @@ class Settings extends React.Component {
 
   render() {
     const {
-      team,
       jobs,
       colorPicker,
       filters,
@@ -251,12 +250,9 @@ class Settings extends React.Component {
     return (
       <div className="settings-container">
         <div className="settings-header">
-          <div className="settings-team-name">
-            <span>{team.name}</span>
-          </div>
           <div className="settings-tabs-container">
             <div>
-              <span>{t('jobs')}</span>
+              <span>{t('navLinks.settings')}</span>
             </div>
           </div>
         </div>
@@ -320,7 +316,6 @@ class Settings extends React.Component {
 Settings.propTypes = {
   companyUuid: PropTypes.string.isRequired,
   teamUuid: PropTypes.string.isRequired,
-  team: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired,
   jobs: PropTypes.object.isRequired,
   colorPicker: PropTypes.object.isRequired,

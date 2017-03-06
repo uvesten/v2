@@ -34,7 +34,6 @@ class SchedulingDateController extends React.Component {
   render() {
     const { queryStart, queryStop, stepDateRange, timezone,
       disabled } = this.props;
-    const { time } = this.state;
     const startDisplay = moment.utc(queryStart).tz(timezone)
       .format(MOMENT_CALENDAR_START_DISPLAY);
     const stopDisplay = moment.utc(queryStop).tz(timezone)
@@ -43,23 +42,24 @@ class SchedulingDateController extends React.Component {
 
     return (
       <div className="scheduling-date-controls-container mdl-grid">
-        <div className="date-buttons mdl-cell-3-col">
+        <div className="date-buttons mdl-cell-2-col">
           <SquareButton
             name="chevron_left"
             onClick={stepDateRange}
             data-direction="left"
             disabled={disabled}
           />
+        </div>
+        <div className="time-displays mdl-cell-8-col">
+          <div className="date-range">{startDisplay} - {stopDisplay}</div>
+        </div>
+        <div className="date-buttons mdl-cell-2-col">
           <SquareButton
             name="chevron_right"
             onClick={stepDateRange}
             data-direction="right"
             disabled={disabled}
           />
-        </div>
-        <div className="time-displays mdl-cell-9-col">
-          <div className="date-range">{startDisplay} - {stopDisplay}</div>
-          <div className="current-time">{time}</div>
         </div>
       </div>
     );
