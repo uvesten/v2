@@ -164,6 +164,7 @@ class ShiftWeekTable extends React.Component {
           updateSchedulingModalFormData={updateSchedulingModalFormData}
           clearSchedulingModalFormData={clearSchedulingModalFormData}
           onCardZAxisChange={this.props.onCardZAxisChange}
+          isSaving={isSaving}
         />
       );
     }

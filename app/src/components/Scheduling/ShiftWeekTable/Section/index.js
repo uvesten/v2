@@ -4,6 +4,7 @@ import 'moment-timezone';
 import React, { PropTypes } from 'react';
 
 import TableSectionPhotoName from './PhotoName';
+import TableSectionJobName from './JobName';
 import SectionSummaryInfo from './SummaryInfo';
 import ShiftWeekTableRow from './Row';
 import { MOMENT_ISO_DATE } from '../../../../constants/config';
@@ -115,12 +116,45 @@ class ShiftWeekTableSection extends React.Component {
       viewBy, sectionUuid, droppedSchedulingCard, shifts, deleteTeamShift,
       toggleSchedulingModal, modalOpen, editTeamShift, startDate,
       updateSchedulingModalFormData, createTeamShift, modalFormData,
-      clearSchedulingModalFormData, companyUuid, teamUuid } = this.props;
+      clearSchedulingModalFormData, companyUuid, teamUuid, isSaving,
+    } = this.props;
+
+    let nameSection = null;
+
+    if (!_.isEmpty(photoUrl)) {
+      nameSection = (
+        <TableSectionPhotoName name={name} photoUrl={photoUrl} />
+      );
+    } else {
+      nameSection = (
+        <TableSectionJobName
+          name={name}
+          containerProps={{
+            buttonType: 'neutral flexible',
+            disabled: isSaving,
+          }}
+          tableSize={tableSize}
+          startDate={startDate}
+          timezone={timezone}
+          toggleSchedulingModal={toggleSchedulingModal}
+          containerComponent="div"
+          viewBy={viewBy}
+          selectedRow={sectionUuid}
+          employees={employees}
+          jobs={jobs}
+          createTeamShift={createTeamShift}
+          modalFormData={modalFormData}
+          updateSchedulingModalFormData={updateSchedulingModalFormData}
+          clearSchedulingModalFormData={clearSchedulingModalFormData}
+          sectionUuid={sectionUuid}
+        />
+      );
+    }
 
     return (
       <div className="shift-week-table-section">
         <div className="section-info">
-          <TableSectionPhotoName name={name} photoUrl={photoUrl} />
+          {nameSection}
           <SectionSummaryInfo shifts={shifts} timezone={timezone} />
         </div>
         <div className="shift-rows">
@@ -185,6 +219,7 @@ ShiftWeekTableSection.propTypes = {
   onCardZAxisChange: PropTypes.func.isRequired,
   companyUuid: PropTypes.string,
   teamUuid: PropTypes.string,
+  isSaving: PropTypes.bool,
 };
 
 export default ShiftWeekTableSection;
