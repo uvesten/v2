@@ -1,10 +1,11 @@
 import _ from 'lodash';
 import React, { PropTypes } from 'react';
+import { translate } from 'react-i18next';
 import classNames from 'classnames';
 
 require('./table-header.scss');
 
-function TableHeader({ columns }) {
+function TableHeader({ columns, t }) {
   return (
     <thead>
       <tr>
@@ -18,7 +19,7 @@ function TableHeader({ columns }) {
 
             return (
               <th key={key} className={classes}>
-                {column.displayName}
+                { t(column.translate) }
               </th>);
           })
         }
@@ -29,6 +30,7 @@ function TableHeader({ columns }) {
 
 TableHeader.propTypes = {
   columns: PropTypes.arrayOf(PropTypes.object).isRequired,
+  t: PropTypes.func.isRequired,
 };
 
-export default TableHeader;
+export default translate('common')(TableHeader);

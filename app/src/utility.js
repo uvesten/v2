@@ -139,21 +139,21 @@ export function detectEnvironment() {
 }
 
 export function getFormattedDuration(miliseconds) {
-  const result = [];
+  const result = { hr: 0, m: 0 };
   const duration = moment.duration(miliseconds);
   const hours = duration.hours() + (duration.days() * 24);
   const minutes = duration.minutes();
 
   if (hours !== 0) {
-    result.push(`${hours} hr`);
+    result.hr = hours;
   }
 
   // add minutes if they exist, or if the times are the same
   if (minutes !== 0 || result.length === 0) {
-    result.push(`${minutes} m`);
+    result.m = minutes;
   }
 
-  return result.join(' ');
+  return result;
 }
 
 export function formattedDifferenceFromMoment(startMoment, stopMoment) {

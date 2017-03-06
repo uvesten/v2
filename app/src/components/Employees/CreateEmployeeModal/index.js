@@ -4,6 +4,7 @@ import { ProgressBar } from 'react-mdl';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 import { ScaleModal } from 'boron';
+import { translate } from 'react-i18next';
 
 import * as actions from '../../../actions';
 import createEmployee from '../../../validators/create-employee';
@@ -115,7 +116,7 @@ class CreateEmployeeModal extends React.Component {
   }
 
   render() {
-    const { teams } = this.props;
+    const { teams, t } = this.props;
     const { submitting } = this.state;
 
     let selectedUuid;
@@ -142,7 +143,7 @@ class CreateEmployeeModal extends React.Component {
         disabled={submitting}
         onClick={this.closeModal}
       >
-        Cancel
+        { t('cancel') }
       </StaffjoyButton>
     );
 
@@ -157,7 +158,7 @@ class CreateEmployeeModal extends React.Component {
         disabled={submitting}
         onClick={this.submit}
       >
-        Create
+        { t('create') }
       </StaffjoyButton>
     );
 
@@ -166,21 +167,21 @@ class CreateEmployeeModal extends React.Component {
         <Field
           component={TextField}
           disabled={submitting}
-          label="Full Name"
+          label={t('fullName')}
           name="full_name"
           width="full"
         />
         <Field
           component={TextField}
           disabled={submitting}
-          label="Email"
+          label={t('email')}
           name="email"
           width="full"
         />
         <Field
           component={TextField}
           disabled={submitting}
-          label="Phone"
+          label={t('phone')}
           name="phonenumber"
           width="full"
         />
@@ -202,8 +203,8 @@ class CreateEmployeeModal extends React.Component {
           <div>
             {progressBar}
             <ModalLayoutRightSideColumn
-              title="Create New Employee"
-              panelTitle="Select Team(s)"
+              title={t('createNewEmployee')}
+              panelTitle={t('selectTeams')}
               panelContent={panelContent}
               buttons={[cancelButton, createButton]}
             >
@@ -216,7 +217,7 @@ class CreateEmployeeModal extends React.Component {
           size="small"
           onClick={this.openModal}
         >
-          Create Employee
+          {t('createEmployee')}
         </StaffjoyButton>
       </div>
     );
@@ -234,6 +235,7 @@ CreateEmployeeModal.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   reset: PropTypes.func.isRequired,
   submitSucceeded: PropTypes.bool.isRequired,
+  t: PropTypes.func.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -254,6 +256,6 @@ function mapDisatchToProps(dispatch) {
 const Form = reduxForm({
   form: 'create-employee',
   validate: createEmployee,
-})(CreateEmployeeModal);
+})(translate('common')(CreateEmployeeModal));
 const Container = connect(mapStateToProps, mapDisatchToProps)(Form);
 export default Container;

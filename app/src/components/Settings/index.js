@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { translate } from 'react-i18next';
 import * as actions from 'actions';
 import * as constants from 'constants/constants';
 import LoadingScreen from 'components/LoadingScreen';
@@ -238,6 +239,7 @@ class Settings extends React.Component {
       jobFieldsShowSuccess,
       newJob,
       isFetching,
+      t,
     } = this.props;
 
     if (isFetching) {
@@ -254,7 +256,7 @@ class Settings extends React.Component {
           </div>
           <div className="settings-tabs-container">
             <div>
-              <span>Jobs</span>
+              <span>{t('jobs')}</span>
             </div>
           </div>
         </div>
@@ -334,6 +336,7 @@ Settings.propTypes = {
   setFilters: PropTypes.func.isRequired,
   setColorPicker: PropTypes.func.isRequired,
   isFetching: PropTypes.bool.isRequired,
+  t: PropTypes.func.isRequired,
 };
 
 function mapStateToProps(state, ownProps) {
@@ -405,4 +408,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(Settings);
+)(translate('common')(Settings));

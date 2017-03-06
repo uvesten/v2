@@ -42,9 +42,9 @@ export function getRefetchInterval(endpoint) {
 export const MOMENT_DAY_DATE_DISPLAY = 'ddd M/D';
 export const MOMENT_DATE_DISPLAY = 'M/D';
 export const MOMENT_ISO_DATE = 'YYYY-MM-DD';
-export const MOMENT_CALENDAR_START_DISPLAY = 'MMM D';
-export const MOMENT_CALENDAR_END_DISPLAY = 'MMM D, YYYY';
-export const MOMENT_CALENDAR_TIME_DISPLAY = 'h:mm A z';
+export const MOMENT_CALENDAR_START_DISPLAY = 'M/D';
+export const MOMENT_CALENDAR_END_DISPLAY = 'M/D, YYYY';
+export const MOMENT_CALENDAR_TIME_DISPLAY = 'h:mm A';
 export const MOMENT_SHIFT_CARD_TIMES = 'h:mm a';
 export const API_TIME_FORMAT = 'YYYY-MM-DDTHH:mm:ss';
 
