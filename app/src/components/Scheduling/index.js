@@ -1,17 +1,15 @@
 import _ from 'lodash';
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { translate } from 'react-i18next';
 import { DragDropContext as dragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import $ from 'npm-zepto';
 import * as actions from 'actions';
 import LoadingScreen from 'components/LoadingScreen';
-import StaffjoyButton from 'components/StaffjoyButton';
-import SearchField from 'components/SearchField';
 import ShiftWeekTable from './ShiftWeekTable';
 import SchedulingDateController from './DateController';
 import SchedulingViewByController from './ViewByController';
-import CreateShiftModal from './CreateShiftModal';
 
 require('./scheduling.scss');
 
@@ -39,24 +37,15 @@ class Scheduling extends React.Component {
   }
 
   render() {
-    const { isFetching, updateSearchFilter, params, filters, employees, jobs,
+    const { isFetching, params, filters, employees, jobs,
       shifts, timezone, stepDateRange, changeViewBy, droppedSchedulingCard,
       deleteTeamShift, toggleSchedulingModal, modalOpen, editTeamShift,
       updateSchedulingModalFormData, createTeamShift, modalFormData,
-      clearSchedulingModalFormData, publishTeamShifts, isSaving, companyUuid,
-      teamUuid } = this.props;
+      clearSchedulingModalFormData, isSaving, companyUuid,
+      teamUuid, t } = this.props;
     const tableSize = 7;
     const viewBy = filters.viewBy;
     const startDate = params.startDate;
-
-    const allShiftsPublished = !_.some(shifts, x => !x.published);
-    let publishAction = 'Publish Week';
-    let publishButtonStyle = 'primary';
-
-    if (allShiftsPublished && shifts.length > 0) {
-      publishAction = 'Unpublish Week';
-      publishButtonStyle = 'outline-error';
-    }
 
     if (isFetching) {
       return (
@@ -69,14 +58,8 @@ class Scheduling extends React.Component {
     return (
       <div className="scheduling-container">
         <ul className="scheduling-controls">
-          <li className="control-unit">
-            <SchedulingDateController
-              queryStart={params.range.start}
-              queryStop={params.range.stop}
-              timezone={timezone}
-              stepDateRange={stepDateRange}
-              disabled={isSaving}
-            />
+          <li className="header">
+            {t('navLinks.scheduler')}
           </li>
           <li className="control-unit">
             <SchedulingViewByController
@@ -85,41 +68,13 @@ class Scheduling extends React.Component {
               disabled={isSaving}
             />
           </li>
-          <li className="control-unit control-unit-hidden-on-collapse">
-            <SearchField
-              width={200}
-              onChange={updateSearchFilter}
-              darkBackground
-              disabled={isSaving}
-            />
-          </li>
-          <li className="publish-week-btn control-unit-hidden-on-collapse">
-            <StaffjoyButton
-              buttonType={publishButtonStyle}
-              onClick={publishTeamShifts}
-              disabled={isSaving}
-            >
-              {publishAction}
-            </StaffjoyButton>
-          </li>
-          <li className="create-shift-btn control-unit-hidden-on-collapse">
-            <CreateShiftModal
-              tableSize={tableSize}
-              startDate={startDate}
+          <li className="date-control-unit">
+            <SchedulingDateController
+              queryStart={params.range.start}
+              queryStop={params.range.stop}
               timezone={timezone}
-              modalCallbackToggle={toggleSchedulingModal}
-              containerComponent="button"
-              containerProps={{
-                buttonType: 'neutral',
-                disabled: isSaving,
-              }}
-              viewBy={viewBy}
-              employees={employees}
-              jobs={jobs}
-              onSave={createTeamShift}
-              modalFormData={modalFormData}
-              updateSchedulingModalFormData={updateSchedulingModalFormData}
-              clearSchedulingModalFormData={clearSchedulingModalFormData}
+              stepDateRange={stepDateRange}
+              disabled={isSaving}
             />
           </li>
         </ul>
@@ -168,7 +123,6 @@ Scheduling.propTypes = {
   jobs: PropTypes.object.isRequired,
   shifts: PropTypes.arrayOf(PropTypes.object).isRequired,
   timezone: PropTypes.string.isRequired,
-  updateSearchFilter: PropTypes.func.isRequired,
   stepDateRange: PropTypes.func.isRequired,
   changeViewBy: PropTypes.func.isRequired,
   droppedSchedulingCard: PropTypes.func.isRequired,
@@ -180,8 +134,8 @@ Scheduling.propTypes = {
   modalFormData: PropTypes.object.isRequired,
   updateSchedulingModalFormData: PropTypes.func.isRequired,
   clearSchedulingModalFormData: PropTypes.func.isRequired,
-  publishTeamShifts: PropTypes.func.isRequired,
   handleCardZAxisChange: PropTypes.func.isRequired,
+  t: PropTypes.func.isRequired,
 };
 
 function mapStateToProps(state, ownProps) {
@@ -244,9 +198,6 @@ function mapStateToProps(state, ownProps) {
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  updateSearchFilter: (event) => {
-    dispatch(actions.updateSchedulingSearchFilter(event.target.value));
-  },
   changeViewBy: (event) => {
     const newView = $(event.target).data('id');
     const { teamUuid } = ownProps.routeParams;
@@ -294,11 +245,6 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 
     dispatch(actions.deleteTeamShift(companyUuid, teamUuid, shiftUuid));
   },
-  publishTeamShifts: () => {
-    const { companyUuid, teamUuid } = ownProps.routeParams;
-
-    dispatch(actions.publishTeamShifts(companyUuid, teamUuid));
-  },
   toggleSchedulingModal: (value) => {
     dispatch(actions.toggleSchedulingModal(value));
   },
@@ -325,4 +271,4 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(dragDropContext(HTML5Backend)(Scheduling));
+)(dragDropContext(HTML5Backend)(translate('common')(Scheduling)));

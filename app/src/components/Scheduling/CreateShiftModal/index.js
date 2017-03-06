@@ -10,6 +10,7 @@ import SelectableModalList from 'components/ModalLayout/SelectableList';
 import StaffjoyButton from 'components/StaffjoyButton';
 import { MOMENT_SHIFT_CARD_TIMES } from 'constants/config';
 import { UNASSIGNED_SHIFTS } from 'constants/constants';
+import PlusIcon from 'components/SVGs/PlusIcon';
 
 class CreateShiftModal extends React.Component {
 
@@ -41,6 +42,9 @@ class CreateShiftModal extends React.Component {
         }
         break;
       case 'button':
+        if (viewBy === 'job' && sectionUuid !== UNASSIGNED_SHIFTS) {
+          updateSchedulingModalFormData({ selectedJob: sectionUuid });
+        }
         break;
       default:
         break;
@@ -118,7 +122,11 @@ class CreateShiftModal extends React.Component {
             {...containerProps}
             onClick={this.openModal}
           >
-            {t('createShift')}
+            <PlusIcon
+              fill="#9a9699"
+              width="20px"
+              height="20px"
+            />
           </StaffjoyButton>
         );
         break;

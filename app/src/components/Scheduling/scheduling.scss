@@ -28,10 +28,26 @@
     padding-left: 20px;
     z-index: 1;
 
+    .header {
+      display: inline-block;
+      vertical-align: top;
+      margin: 16px 1% 0px;
+      color: $pure-white;
+      min-width: 84px;
+      text-transform: uppercase;
+    }
+
     .control-unit {
       display: inline-block;
       vertical-align: top;
       margin: 13px 1% 0px;
+    }
+
+    .date-control-unit {
+      float: right;
+      display: inline-block;
+      vertical-align: top;
+      margin: 13px 36px 0 12px;
     }
 
     .publish-week-btn {
