@@ -6,17 +6,9 @@ import {
   MOMENT_DATE_DISPLAY,
   MOMENT_ISO_DATE,
 } from 'constants/config';
-import {
-  UNASSIGNED_SHIFTS,
-} from 'constants/constants';
 import LoadingScreen from 'components/LoadingScreen';
 import ShiftWeekTableHeader from './Header';
 import ShiftWeekTableSection from './Section';
-
-
-const unassignedShiftPhoto = require(
-  '../../../../../frontend_resources/images/unassigned_shift_icon.png'
-);
 
 require('./shift-week-table.scss');
 
@@ -103,71 +95,9 @@ class ShiftWeekTable extends React.Component {
       droppedSchedulingCard, toggleSchedulingModal, editTeamShift,
       deleteTeamShift, startDate, updateSchedulingModalFormData,
       clearSchedulingModalFormData, createTeamShift, modalFormData,
-      isSaving, shifts, companyUuid, teamUuid, t } = this.props;
+      isSaving, companyUuid, teamUuid } = this.props;
 
     const columns = this.buildColumns();
-    let unassignedSection = null;
-
-    if (viewBy === 'employee') {
-      unassignedSection = (
-        <ShiftWeekTableSection
-          key="unassigned-shifts-section"
-          droppedSchedulingCard={droppedSchedulingCard}
-          columns={columns}
-          tableSize={tableSize}
-          shifts={shifts.filter(shift => shift.user_uuid === '')}
-          name={t('unassignedShifts')}
-          sectionType={viewBy}
-          sectionUuid={UNASSIGNED_SHIFTS}
-          timezone={timezone}
-          viewBy={viewBy}
-          photoUrl={unassignedShiftPhoto}
-          employees={employees}
-          jobs={jobs}
-          deleteTeamShift={deleteTeamShift}
-          toggleSchedulingModal={toggleSchedulingModal}
-          modalOpen={modalOpen}
-          modalFormData={modalFormData}
-          createTeamShift={createTeamShift}
-          editTeamShift={editTeamShift}
-          startDate={startDate}
-          updateSchedulingModalFormData={updateSchedulingModalFormData}
-          clearSchedulingModalFormData={clearSchedulingModalFormData}
-          onCardZAxisChange={this.props.onCardZAxisChange}
-          companyUuid={companyUuid}
-          teamUuid={teamUuid}
-        />
-      );
-    } else if (viewBy === 'job') {
-      unassignedSection = (
-        <ShiftWeekTableSection
-          key="unassigned-jobs-section"
-          droppedSchedulingCard={droppedSchedulingCard}
-          columns={columns}
-          tableSize={tableSize}
-          shifts={shifts.filter(shift => shift.job_uuid === '')}
-          name={t('noJobs')}
-          sectionType={viewBy}
-          sectionUuid={UNASSIGNED_SHIFTS}
-          timezone={timezone}
-          viewBy={viewBy}
-          photoUrl={unassignedShiftPhoto}
-          employees={employees}
-          jobs={jobs}
-          deleteTeamShift={deleteTeamShift}
-          toggleSchedulingModal={toggleSchedulingModal}
-          modalOpen={modalOpen}
-          modalFormData={modalFormData}
-          createTeamShift={createTeamShift}
-          editTeamShift={editTeamShift}
-          startDate={startDate}
-          updateSchedulingModalFormData={updateSchedulingModalFormData}
-          clearSchedulingModalFormData={clearSchedulingModalFormData}
-          onCardZAxisChange={this.props.onCardZAxisChange}
-          isSaving={isSaving}
-        />
-      );
-    }
 
     return (
       <div className="shift-week-table">
@@ -193,7 +123,6 @@ class ShiftWeekTable extends React.Component {
             columns={columns}
             tableSize={tableSize}
           />
-          {unassignedSection}
           {
             // TODO add unassigned shifts row if it's viewType employees
             _.map(this.organizeShiftsIntoSections(), (group) => {
